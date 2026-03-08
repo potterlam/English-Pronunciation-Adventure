@@ -1,4 +1,4 @@
-# 英語過去式發音冒險遊戲 (English Past Tense Pronunciation Adventure Game)
+# English Pronunciation Adventure
 
 一款教育性的網頁遊戲，旨在幫助學習者掌握英語過去式的發音規律 (/t/, /d/, /ɪd/)。
 

@@ -4,7 +4,7 @@
 window.T = {
     zh: {
         // Main menu
-        gameTitle:       '🎭 英語過去式發音冒險',
+        gameTitle:       '🎭 英語發音冒險',
         startGame:       '🚀 開始冒險',
         instructions:    '📚 遊戲說明',
         credits:         '🏆 製作團隊',
@@ -112,7 +112,7 @@ window.T = {
         creditsText:      '用 ❤️ 為英語學習冒險而製作！'
     },
     en: {
-        gameTitle:       '🎭 English Past Tense Adventure',
+        gameTitle:       '🎭 English Pronunciation Adventure',
         startGame:       '🚀 Start Adventure',
         instructions:    '📚 Instructions',
         credits:         '🏆 Credits',
