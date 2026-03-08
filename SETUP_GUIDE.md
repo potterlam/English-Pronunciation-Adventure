@@ -1,49 +1,79 @@
-# 資料夾結構設置指南
+# Setup Guide
 
-請按照以下結構組織您的專案文件：
+Follow these steps to set up the project locally.
 
-## 必要文件夾
+## Prerequisites
 
-請創建以下文件夾並放入對應的資源：
+- A modern web browser (Chrome 70+, Firefox 65+, Safari 12+, Edge 79+)
+- A local HTTP server (Node.js `http-server`, Python `http.server`, or VS Code Live Server)
+
+## Project Structure
+
+Ensure all files are in place:
 
 ### assets/images/
-放入以下圖片文件：
-- player-hypnotized.png
-- hero-final.png  
-- cave-background.jpg
 - player-sprite.png
-- all-artifacts-ready.png
-- cliff-background.jpg
-- artifact-knowledge-gem.png
-- artifact-time-controller.png
-- artifact-energy-eye.png
+- warrior-sprite.png
+- wizard-sprite.png
 - pronunciation-king.png
+- hero-final.png
+- player-hypnotized.png
+- cave-background.jpg
+- cliff-background.jpg
+- wizard-lair.jpg
 - boss-arena.jpg
+- artifact-time-controller.png
+- artifact-knowledge-gem.png
+- artifact-explorers-eye.png
+- all-artifacts-ready.png
 
 ### assets/audio/
-放入以下音頻文件：
-- bgm.mp3 (背景音樂)
-- click.mp3 (點擊音效)
-- correct.mp3 (正確答案音效)
-- wrong.mp3 (錯誤答案音效)
+- bgm.mp3 (background music)
+- click.mp3 (click sound effect)
+- correct.mp3 (correct answer sound)
+- wrong.mp3 (wrong answer sound)
 
 ### assets/video/
-放入以下視頻文件：
-- intro.mp4 (開場動畫)
-- ending.mp4 (結尾動畫)
+- intro.mp4 (opening cinematic)
+- ending.mp4 (ending cinematic)
 
-### css/
-- style.css (已生成)
-
-### js/  
-- script.js (已生成)
+### js/
+- app.js (game state & bootstrap)
+- audio.js (AudioManager class)
+- screens.js (ScreenManager class)
+- translations.js (zh-TW / English translations)
+- game-system.js (central orchestrator)
+- games/word-puzzle.js
+- games/sword-slash.js
+- games/multiple-choice.js
+- games/boss-fight.js
 
 ### data/
-如有遊戲資料文件請放在此處
+- words.js (word database for pastTense & extension modes)
 
-## 注意事項
+### css/
+- style.css
 
-1. 確保所有資源文件的文件名完全匹配
-2. 文件路徑區分大小寫
-3. 建議使用相對路徑引用資源
-4. 測試時使用本地服務器 (如: `python -m http.server`)
+## Running Locally
+
+### Option 1: Node.js http-server
+```bash
+npx http-server -p 8080 -c-1
+```
+Then open http://localhost:8080
+
+### Option 2: Python
+```bash
+python -m http.server 8080
+```
+Then open http://localhost:8080
+
+### Option 3: VS Code Live Server
+Install the "Live Server" extension and click "Go Live" in the status bar.
+
+## Notes
+
+1. File names are case-sensitive — ensure exact matches
+2. The game must be served via HTTP (not `file://`) for audio and TTS to work
+3. TTS uses the browser's Web Speech API — pronunciation may vary by browser/OS
+4. Default volumes: BGM 3%, SFX 15% (adjustable via Settings panel)

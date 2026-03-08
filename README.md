@@ -1,85 +1,107 @@
-# English Pronunciation Adventure
+# 🎭 English Pronunciation Adventure
 
-一款教育性的網頁遊戲，旨在幫助學習者掌握英語過去式的發音規律 (/t/, /d/, /ɪd/)。
+An interactive educational web game that helps learners master English pronunciation rules through a fantasy adventure story.
 
-## 遊戲特色
+**🌐 Play Now:** [https://potterlam.github.io/English-Pronunciation-Adventure/](https://potterlam.github.io/English-Pronunciation-Adventure/)
 
-- 🎮 互動式學習體驗
-- 🎵 豐富的音效和背景音樂
-- 🎬 故事模式和過場動畫
-- 🏆 多階段闖關系統
-- 📚 單詞搜尋和選擇題模式
-- 👑 最終 Boss 戰
+## ✨ Features
 
-## 文件結構
+- 🎮 **Two Practice Modes** — Past tense -ed (/t/, /d/, /ɪd/) and suffix -s / -es / -ies
+- 🧚 **Fairy Rules Tutorial** — Animated fairy teaches voiced vs. voiceless sounds before gameplay
+- 📖 **Story-driven Adventure** — 4-scene intro with character art and narrative cutscenes
+- ⚔️ **4 Unique Games** — Word Puzzle, Sword Slash, Multiple Choice, Boss Fight
+- 🏆 **Artifact Collection** — Earn three legendary artifacts across your journey
+- 🌐 **Bilingual** — Full zh-TW / English support with one-click toggle
+- 🎵 **Audio & TTS** — BGM, sound effects, and text-to-speech pronunciation
+- ⚙️ **Settings Panel** — Adjustable BGM and SFX volume sliders
+- 📱 **Responsive** — Works on desktop, tablet, and mobile
+
+## 🎮 Game Modes
+
+### Past Tense -ed
+Learn to classify past-tense verbs by their ending sound:
+| Sound | Rule | Examples |
+|-------|------|----------|
+| /t/   | After voiceless sounds (p, k, f, s, sh, ch) | stopped, walked, washed |
+| /d/   | After voiced sounds or vowels (b, g, v, l, n, r…) | played, called, loved |
+| /ɪd/  | After /t/ or /d/ endings | wanted, needed, landed |
+
+### Suffix -s / -es / -ies
+Learn plural and third-person verb endings:
+| Rule | When | Examples |
+|------|------|----------|
+| -s   | Most words | cats, plays, books |
+| -es  | After s, sh, ch, x, z | dishes, watches, boxes |
+| -ies | Consonant + y → drop y, add -ies | study→studies, baby→babies |
+
+## 🗂 Project Structure
 
 ```
-├── index.html          # 主遊戲頁面
+├── index.html              # Main game page
 ├── css/
-│   └── style.css       # 遊戲樣式
+│   └── style.css           # All styles (responsive)
 ├── js/
-│   └── script.js       # 遊戲邏輯
-├── assets/
-│   ├── images/         # 遊戲圖片資源
-│   ├── audio/          # 音效文件
-│   │   ├── bgm.mp3
-│   │   ├── click.mp3
-│   │   ├── correct.mp3
-│   │   └── wrong.mp3
-│   └── video/          # 視頻文件
-│       ├── intro.mp4
-│       └── ending.mp4
-└── data/               # 遊戲資料文件
-
+│   ├── app.js              # Game state & bootstrap
+│   ├── audio.js            # AudioManager (BGM, SFX, TTS)
+│   ├── screens.js          # ScreenManager & cutscene overlay
+│   ├── translations.js     # zh-TW / English translations
+│   ├── game-system.js      # Central orchestrator
+│   └── games/
+│       ├── word-puzzle.js   # 📰 Newspaper-style unscramble & classify
+│       ├── sword-slash.js   # ⚔️ Slash falling words with correct sword
+│       ├── multiple-choice.js # 🎵 Listen & choose pronunciation
+│       └── boss-fight.js   # 👑 Shoot word bubbles to defeat the boss
+├── data/
+│   └── words.js            # Word database (pastTense & extension)
+└── assets/
+    ├── images/             # Character sprites, backgrounds, artifacts
+    ├── audio/              # bgm.mp3, click.mp3, correct.mp3, wrong.mp3
+    └── video/              # intro.mp4, ending.mp4
 ```
 
-## 如何運行
+## 🚀 Getting Started
 
-1. 克隆此存儲庫：
-   ```bash
-   git clone [your-repo-url]
-   ```
+### Play Online
+Visit [https://potterlam.github.io/English-Pronunciation-Adventure/](https://potterlam.github.io/English-Pronunciation-Adventure/)
 
-2. 確保所有資源文件都在正確的位置
+### Run Locally
+```bash
+git clone https://github.com/potterlam/English-Pronunciation-Adventure.git
+cd English-Pronunciation-Adventure
+npx http-server -p 8080 -c-1
+# Open http://localhost:8080
+```
 
-3. 在瀏覽器中打開 `index.html`
+## 🎯 Learning Objectives
 
-## 遊戲內容
+- Master the three -ed pronunciation patterns through gamified practice
+- Understand voiced vs. voiceless sounds and their effect on pronunciation
+- Learn -s / -es / -ies suffix rules for plurals and third-person verbs
+- Build phonemic awareness through interactive listening and classification
 
-### 學習目標
-- 掌握英語過去式三種發音：/t/, /d/, /ɪd/
-- 通過遊戲化學習提高記憶效果
-- 培養語音意識和發音準確性
+## 🛠 Tech Stack
 
-### 遊戏階段
-1. **教學關卡** - 學習基本發音規則
-2. **練習關卡** - 單詞搜尋和選擇題
-3. **挑戰關卡** - 面對不同難度的敵人
-4. **最終戰** - 發音之王挑戰
+- **HTML5** — Semantic structure
+- **CSS3** — Responsive design, animations, backdrop-filter effects
+- **Vanilla JavaScript** — No frameworks, modular ES5 classes
+- **Web Speech API** — Text-to-speech pronunciation
+- **HTML5 Audio/Video** — BGM, SFX, intro/ending cinematics
 
-## 技術規格
-
-- HTML5
-- CSS3 (響應式設計)
-- Vanilla JavaScript
-- Web Audio API (音效播放)
-- HTML5 Video (過場動畫)
-
-## 瀏覽器支援
+## 🌍 Browser Support
 
 - Chrome 70+
 - Firefox 65+
 - Safari 12+
 - Edge 79+
 
-## 開發者
+## 👨‍💻 Developer
 
-由 EdUHK 學生開發，作為教育技術專案的一部分。
+Developed by EdUHK students as part of an educational technology project.
 
-## 授權
+## 📄 License
 
-此專案僅供教育用途。
+This project is for educational purposes only.
 
 ---
 
-*讓學習英語發音變得更有趣！* 🎯
+*Making English pronunciation learning fun!* 🎯

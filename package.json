@@ -1,19 +1,27 @@
 {
-  "name": "english-past-tense-game",
-  "version": "1.0.0",
-  "description": "An educational web game for learning English past tense pronunciation",
+  "name": "english-pronunciation-adventure",
+  "version": "3.0.0",
+  "description": "An interactive educational web game for learning English pronunciation rules (-ed, -s/-es/-ies)",
   "main": "index.html",
   "scripts": {
-    "start": "python -m http.server 8000",
-    "serve": "python3 -m http.server 8000"
+    "start": "npx http-server -p 8080 -c-1",
+    "serve": "python3 -m http.server 8080"
   },
   "keywords": [
     "education",
     "english",
     "pronunciation",
     "game",
-    "past-tense"
+    "past-tense",
+    "suffix",
+    "phonics",
+    "edtech"
   ],
   "author": "EdUHK Student",
-  "license": "Educational Use Only"
+  "license": "Educational Use Only",
+  "homepage": "https://potterlam.github.io/English-Pronunciation-Adventure/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/potterlam/English-Pronunciation-Adventure.git"
+  }
 }

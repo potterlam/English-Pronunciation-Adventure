@@ -1,0 +1,123 @@
+================================================================
+  English Pronunciation Adventure - Change Log
+================================================================
+
+────────────────────────────────────────────────────────────────
+  v1.0.0  |  September 2025  |  Initial Release
+────────────────────────────────────────────────────────────────
+
+[Core Game]
+- Built monolithic single-file past-tense pronunciation game
+- 4 game modes: Word Puzzle, Sword Slash, Multiple Choice, Boss Fight
+- Word database with past-tense -ed words (/t/, /d/, /ɪd/)
+- Sequential game progression with unlock system
+- Basic story intro (4 scenes) with narrative text
+- Cutscene transitions between each game chapter
+- Bilingual support: zh-TW / English with toggle
+
+[Audio]
+- Background music (BGM) with loop
+- Click, correct, wrong sound effects
+- Text-to-speech (TTS) for word pronunciation
+
+[Visual]
+- Neon-styled dark theme UI
+- Loading screen with spinner
+- Game menu with card-based layout
+- Ending screen with completion message
+
+
+────────────────────────────────────────────────────────────────
+  v2.0.0  |  January 2026  |  Major Restructure & Extension
+────────────────────────────────────────────────────────────────
+
+[Architecture]
+- Complete restructure from monolithic file to modular architecture
+  · js/app.js          – Game state & bootstrap
+  · js/audio.js        – AudioManager class
+  · js/screens.js      – ScreenManager class
+  · js/translations.js – Bilingual translation data
+  · js/game-system.js  – Central orchestrator
+  · js/games/word-puzzle.js
+  · js/games/sword-slash.js
+  · js/games/multiple-choice.js
+  · js/games/boss-fight.js
+  · data/words.js      – Word database
+
+[New Content: s/es/ies Mode]
+- Added s/es/ies extension word dataset
+- Separated -ed and s/es/ies into two selectable practice tracks
+- Mode selector tabs added to game menu
+- All 4 games adapted to read practiceMode (pastTense vs extension)
+
+[Visual Enhancements]
+- Character images for intro scenes, cutscenes, and games
+  · player-sprite, warrior-sprite, wizard-sprite
+  · pronunciation-king, hero-final, player-hypnotized
+- Backdrop images for intro scenes (cave, cliff, wizard-lair, boss-arena)
+- Per-game background images in game screens
+- Extension color system for word categories
+- Achievement / artifact collection panel with artifact images
+- Ending video restored
+
+[Game Improvements]
+- Boss fight: added color hint toggle (🎨 ON/OFF)
+- Sword slash: player sprite enlarged to 64x64
+- Sword slash: fixed player position (bottom of arena)
+
+[Audio Improvements]
+- Lowered default volumes: BGM 30% → 15%, SFX 70% → 35%
+- Added BGM volume control dropdown
+
+
+────────────────────────────────────────────────────────────────
+  v3.0.0  |  March 2026  |  Polish, Tutorial & Deployment
+────────────────────────────────────────────────────────────────
+
+[Bug Fixes]
+- Fixed boss fight bubbles not floating (missing RAF loop)
+- Removed duplicate requestAnimationFrame in boss _toggleColors()
+- Fixed sword slash player at top instead of bottom
+  (wildcard CSS `>*{position:relative}` overriding absolute position)
+
+[Settings Panel]
+- Replaced floating volume dropdown with full Settings overlay
+- Dual sliders for BGM and SFX volume control
+- ⚙️ Settings button in top controls bar and main menu
+- Default volumes tuned: BGM → 3%, SFX → 15%
+
+[Fairy Rules Tutorial – NEW]
+- 2-page pronunciation rules tutorial after intro
+- Fairy character flies into scene with animation
+- Page 1: Past tense -ed rules (/t/, /d/, /ɪd/)
+  · Voiced vs. voiceless sound explanation
+  · Color-coded rule cards with examples
+  · Tip: hand on throat to feel vibration
+- Page 2: s/es/ies suffix rules
+  · -s, -es, -ies rules with examples
+  · Tip: vowel + y just adds -s
+- Skip button available on both pages
+
+[Story & Naming Updates]
+- Game renamed: "English Pronunciation Adventure"
+  (removed "Past Tense" to be mode-agnostic)
+- Artifact names genericized (removed /t/ /d/ /ɪd/ prefixes):
+  · Time Controller, Knowledge Gem, Explorer's Eye
+- Intro scene 3 text updated to use generic artifact names
+- All completion messages updated (sword slash, multiple choice)
+- Achievement panel & ending badges updated
+
+[Background Mapping]
+- Per-game background images set dynamically in _launchGame()
+  · Word Puzzle → cliff-background.jpg
+  · Sword Slash → cave-background.jpg
+  · Multiple Choice → wizard-lair.jpg
+  · Boss Fight → boss-arena.jpg
+
+[Deployment]
+- Pushed to GitHub: potterlam/English-Pronunciation-Adventure
+- GitHub Pages enabled for public access
+- Live URL: https://potterlam.github.io/English-Pronunciation-Adventure/
+
+
+================================================================
