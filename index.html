@@ -3,134 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>英語過去式發音冒險遊戲 - 完整版</title>
-    
-    
+    <title>英語過去式發音冒險遊戲</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/script.js" defer></script>
+
+    <!-- Data & core modules (order matters: no deps first) -->
+    <script src="data/words.js" defer></script>
+    <script src="js/translations.js" defer></script>
+    <script src="js/audio.js" defer></script>
+    <script src="js/screens.js" defer></script>
+
+    <!-- Game modules -->
+    <script src="js/games/word-puzzle.js" defer></script>
+    <script src="js/games/sword-slash.js" defer></script>
+    <script src="js/games/multiple-choice.js" defer></script>
+    <script src="js/games/boss-fight.js" defer></script>
+
+    <!-- System + init (depends on everything above) -->
+    <script src="js/game-system.js" defer></script>
+    <script src="js/app.js" defer></script>
 </head>
 <body>
-    
-    <!-- 背景音樂 -->
+
+    <!-- ═══════ Audio elements ═══════ -->
     <audio id="bgmAudio" loop>
         <source src="assets/audio/bgm.mp3" type="audio/mpeg">
     </audio>
-    
-    <!-- 音效 -->
     <audio id="clickSound" preload="auto"><source src="assets/audio/click.mp3" type="audio/mpeg"></audio>
     <audio id="correctSound" preload="auto"><source src="assets/audio/correct.mp3" type="audio/mpeg"></audio>
     <audio id="wrongSound" preload="auto"><source src="assets/audio/wrong.mp3" type="audio/mpeg"></audio>
-    
-    <!-- 載入畫面 -->
+
+    <!-- ═══════ Loading Screen ═══════ -->
     <div id="loadingScreen">
         <div class="loading-spinner"></div>
-        <h2 id="loadingTitle">🎮 英語過去式發音冒險</h2>
-        <p id="loadingStatus">正在初始化遊戲系統...</p>
+        <h2>🎮 英語過去式發音冒險</h2>
+        <p>Loading…</p>
     </div>
-    
-    <!-- 語言切換按鈕 -->
-    <button id="languageToggle">🌐 English</button>
-    
-    <!-- 主選單畫面 -->
+
+    <!-- ═══════ Top Controls ═══════ -->
+    <div class="top-controls">
+        <button id="languageToggle" class="lang-btn">🌐 English</button>
+        <button id="settingsBtn" class="btn-icon" title="Settings">⚙️</button>
+        <button id="achievementBtn" class="btn-icon achievement-btn" title="Artifacts">🏆</button>
+    </div>
+
+    <!-- ═══════ Main Menu ═══════ -->
     <div id="mainMenuScreen" class="screen">
-        <div class="main-menu">
-            <h1 id="gameTitle">🎭 英語過去式發音冒險</h1>
-            <div class="menu-options">
-                <button id="startGameBtn" class="menu-btn">🚀 開始冒險</button>
-                <button id="instructionsBtn" class="menu-btn">📚 遊戲說明</button>
-                <button id="creditsBtn" class="menu-btn">🏆 製作團隊</button>
+        <div class="menu-card">
+            <h1 id="gameTitle" class="neon-title">🎭 英語過去式發音冒險</h1>
+            <div class="menu-btns">
+                <button id="startGameBtn" class="btn-primary">🚀 開始冒險</button>
+                <button id="openSettingsBtn" class="btn-secondary">⚙️ 設定</button>
+                <button id="instructionsBtn" class="btn-secondary">📚 遊戲說明</button>
+                <button id="creditsBtn" class="btn-secondary">🏆 製作團隊</button>
             </div>
         </div>
     </div>
-    
-    <!-- 故事介紹畫面 -->
-    <div id="storyScreen" class="screen">
-        <div class="video-wrapper">
-            <!-- 實際的介紹影片 -->
-            <video id="introVideo" controls preload="metadata" muted>
-                <source src="assets/video/intro.mp4" type="video/mp4">
-                <p style="color: white; padding: 20px; text-align: center;">
-                    🎬 歡迎來到英語過去式發音冒險！<br>
-                    您的瀏覽器不支援影片播放。
-                </p>
-            </video>
-            <div class="video-controls">
-                <h3 style="color: white; margin: 0 0 15px 0;" id="introVideoTitle">🎬 遊戲介紹</h3>
-                <p style="color: #ccc; margin: 0 0 20px 0;" id="introVideoDesc">觀看完整故事介紹或直接開始遊戲</p>
-                <button id="skipIntroBtn" class="video-control-btn secondary">⏭️ 跳過介紹</button>
-                <button id="continueStoryBtn" class="video-control-btn">▶️ 開始遊戲</button>
+
+    <!-- ═══════ Intro (4 Scenes) ═══════ -->
+    <div id="introScreen" class="screen intro-screen scene-bg-1">
+        <div class="intro-card">
+            <div class="intro-icon" id="introIcon">✨</div>
+            <h2 class="intro-title" id="introTitle"></h2>
+            <p class="intro-text" id="introText"></p>
+            <div class="intro-dots" id="introDots"></div>
+            <div class="intro-btns">
+                <button id="introNextBtn" class="btn-primary">▶️ 繼續</button>
+                <button id="introSkipBtn" class="btn-secondary btn-sm">⏭️ 跳過介紹</button>
             </div>
         </div>
     </div>
-    
-    <!-- 結束畫面 -->
-    <div id="endingScreen" class="screen">
-        <div class="video-wrapper">
-            <!-- 結束影片 -->
-            <video id="endingVideo" controls preload="metadata">
-                <source src="assets/video/ending.mp4" type="video/mp4">
-                <div style="width: 100%; height: 400px; background-image: url('assets/images/hero-final.png'); background-size: contain; background-repeat: no-repeat; background-position: center; display: flex; align-items: center; justify-content: center; color: white; text-align: center; padding: 40px;">
-                    <div>
-                        <h2 style="font-size: 2em; margin-bottom: 20px;">🎉 恭喜完成冒險！</h2>
-                        <p style="font-size: 18px;">您已成為真正的發音大師！</p>
-                    </div>
-                </div>
-            </video>
-            <div class="video-controls">
-                <h3 style="color: white; margin: 0 0 15px 0;" id="endingVideoTitle">🎉 冒險完成！</h3>
-                <p style="color: #ccc; margin: 0 0 20px 0;" id="endingVideoDesc">您已成為真正的發音大師！</p>
-                <button id="playAgainBtn" class="video-control-btn">🔄 重新開始</button>
-                <button id="backToMenuBtn" class="video-control-btn secondary">🏠 返回主選單</button>
+
+    <!-- ═══════ Fairy Rules Screen ═══════ -->
+    <div id="rulesScreen" class="screen rules-screen">
+        <div class="rules-card">
+            <div class="fairy-wrap" id="fairyWrap">
+                <span class="fairy-sprite">🧚</span>
+            </div>
+            <div class="fairy-bubble" id="fairyBubble"></div>
+            <div class="rules-body" id="rulesBody"></div>
+            <div class="rules-dots" id="rulesDots"></div>
+            <div class="rules-btns">
+                <button id="rulesNextBtn" class="btn-primary">▶️ 繼續</button>
+                <button id="rulesSkipBtn" class="btn-secondary btn-sm">⏭️ 跳過</button>
             </div>
         </div>
     </div>
-    
-    <!-- 過場動畫 -->
-    <div id="cutsceneContainer" class="cutscene">
-        <div class="cutscene-content">
-            <div class="cutscene-character" id="cutsceneCharacter"></div>
-            <h2 class="cutscene-title" id="cutsceneTitle">章節標題</h2>
-            <p class="cutscene-text" id="cutsceneText">故事內容...</p>
-            <button id="cutsceneContinue" class="video-control-btn">▶️ 繼續</button>
-        </div>
-    </div>
-    
-    <!-- 遊戲選單畫面 -->
+
+    <!-- ═══════ Game Menu ═══════ -->
     <div id="gameMenuScreen" class="screen">
-        <div class="game-menu">
+        <div class="menu-card">
             <h1 id="gameMenuTitle">🎮 選擇你的挑戰</h1>
-            
+
+            <!-- Practice Mode Selector -->
+            <div class="mode-selector">
+                <button class="mode-tab active" id="modePastTense" data-mode="pastTense">
+                    <span class="mode-icon">📝</span>
+                    <span class="mode-label" id="modePTLabel">過去式 -ed</span>
+                </button>
+                <button class="mode-tab" id="modeExtension" data-mode="extension">
+                    <span class="mode-icon">📚</span>
+                    <span class="mode-label" id="modeExtLabel">s / es / ies</span>
+                </button>
+            </div>
+            <p class="mode-desc" id="modeDesc">練習過去式 -ed 的發音分類：/t/、/d/、/ɪd/</p>
+
             <div class="game-grid">
-                <div class="game-button" id="wordSearchBtn" data-game="wordSearch">
-                    <h3 id="ws-title">🔍 橋樑修復</h3>
-                    <p id="ws-desc">修復古老的發音橋樑</p>
+                <div class="game-card" id="wordPuzzleBtn">
+                    <h3 id="g1Title">📰 文字謎題</h3>
+                    <p id="g1Desc">解開報紙風格的文字謎題</p>
                 </div>
-                <div class="game-button locked" id="fallingWordsBtn" data-game="fallingWords">
-                    <h3 id="fw-title">⚔️ 岩石法師戰</h3>
-                    <p id="fw-desc">擊敗邪惡岩石法師</p>
+                <div class="game-card locked" id="swordSlashBtn">
+                    <h3 id="g2Title">⚔️ 落字劍斬</h3>
+                    <p id="g2Desc">用正確的劍斬落文字</p>
                 </div>
-                <div class="game-button locked" id="multipleChoiceBtn" data-game="multipleChoice">
-                    <h3 id="mc-title">🧙‍♂️ 夢魘法師戰</h3>
-                    <p id="mc-desc">從催眠中醒來擊敗法師</p>
+                <div class="game-card locked" id="multipleChoiceBtn">
+                    <h3 id="g3Title">🎵 發音選擇題</h3>
+                    <p id="g3Desc">聽音辨別正確發音</p>
                 </div>
-                <div class="game-button locked" id="bossFightBtn" data-game="bossFight">
-                    <h3 id="bf-title">👑 最終Boss戰</h3>
-                    <p id="bf-desc">面對發音之王！</p>
+                <div class="game-card locked" id="bossFightBtn">
+                    <h3 id="g4Title">👑 Boss 決戰</h3>
+                    <p id="g4Desc">射擊文字泡泡打敗Boss！</p>
                 </div>
             </div>
-            
-            <button class="back-btn" id="gameMenuBackBtn">🏠 返回主選單</button>
+            <button id="gameMenuBackBtn" class="btn-secondary">🏠 返回主選單</button>
         </div>
     </div>
-    
-    <!-- 遊戲容器 -->
+
+    <!-- ═══════ Game Container ═══════ -->
     <div id="gameContainer" class="screen">
-        <div id="gameContent" class="game-container">
-            <!-- 遊戲內容將在這裡插入 -->
+        <div id="gameContent" class="game-content"></div>
+    </div>
+
+    <!-- ═══════ Ending Screen ═══════ -->
+    <div id="endingScreen" class="screen">
+        <div class="ending-card">
+            <video id="endingVideo" class="ending-video" preload="metadata" playsinline>
+                <source src="assets/video/ending.mp4" type="video/mp4">
+            </video>
+            <div class="ending-trophy">🏆</div>
+            <h1 id="endTitle">🎉 冒險完成！</h1>
+            <p id="endDesc">您已成為真正的發音大師！</p>
+            <div class="ending-artifacts" id="endingArtifacts">
+                <span class="artifact-badge">🔵 時空控制器</span>
+                <span class="artifact-badge">🔴 知識寶石</span>
+                <span class="artifact-badge">🟢 探索者之眼</span>
+            </div>
+            <div class="ending-btns">
+                <button id="playAgainBtn" class="btn-primary">🔄 重新開始</button>
+                <button id="endBackBtn" class="btn-secondary">🏠 返回主選單</button>
+            </div>
         </div>
     </div>
-    
-    
+
+    <!-- ═══════ Settings Panel ═══════ -->
+    <div id="settingsPanel" class="settings-overlay">
+        <div class="settings-card">
+            <h2 id="settingsTitle" class="settings-title">⚙️ 設定</h2>
+
+            <div class="settings-row">
+                <label class="settings-label" id="bgmLabel">🎵 背景音樂</label>
+                <div class="settings-slider-wrap">
+                    <input type="range" id="bgmSlider" class="settings-slider" min="0" max="100" value="3">
+                    <span id="bgmValue" class="settings-value">3%</span>
+                </div>
+            </div>
+
+            <div class="settings-row">
+                <label class="settings-label" id="sfxLabel">🔊 音效</label>
+                <div class="settings-slider-wrap">
+                    <input type="range" id="sfxSlider" class="settings-slider" min="0" max="100" value="15">
+                    <span id="sfxValue" class="settings-value">15%</span>
+                </div>
+            </div>
+
+            <button id="settingsCloseBtn" class="btn-primary">✖ 關閉</button>
+        </div>
+    </div>
+
+    <!-- ═══════ Achievement / Artifact Panel ═══════ -->
+    <div id="achievementPanel" class="achievement-overlay">
+        <div class="achievement-card">
+            <h2 id="achieveTitle" class="achieve-title">🏆 收集的神器</h2>
+            <div class="artifact-grid" id="artifactGrid">
+                <div class="artifact-item" id="artifactT">
+                    <img src="assets/images/artifact-time-controller.png" alt="Time Controller" class="artifact-img">
+                    <div class="artifact-name" id="artifactTName">時空控制器</div>
+                    <div class="artifact-status" id="artifactTStatus">❌ 尚未收集</div>
+                </div>
+                <div class="artifact-item" id="artifactD">
+                    <img src="assets/images/artifact-knowledge-gem.png" alt="Knowledge Gem" class="artifact-img">
+                    <div class="artifact-name" id="artifactDName">知識寶石</div>
+                    <div class="artifact-status" id="artifactDStatus">❌ 尚未收集</div>
+                </div>
+                <div class="artifact-item" id="artifactID">
+                    <img src="assets/images/artifact-explorers-eye.png" alt="Explorer's Eye" class="artifact-img">
+                    <div class="artifact-name" id="artifactIDName">探索者之眼</div>
+                    <div class="artifact-status" id="artifactIDStatus">❌ 尚未收集</div>
+                </div>
+            </div>
+            <div class="artifact-all" id="artifactAllWrap" style="display:none">
+                <img src="assets/images/all-artifacts-ready.png" alt="All Artifacts" class="artifact-all-img">
+                <p id="artifactAllText">✨ 已收集所有神器！</p>
+            </div>
+            <button id="achieveCloseBtn" class="btn-primary">✖ 關閉</button>
+        </div>
+    </div>
+
+    <!-- ═══════ Cutscene Overlay ═══════ -->
+    <div id="cutsceneOverlay" class="cutscene-overlay">
+        <div class="cs-card">
+            <h2 id="csTitle" class="cs-title"></h2>
+            <p id="csText" class="cs-text"></p>
+            <button id="csContinueBtn" class="btn-primary">▶️ 繼續</button>
+        </div>
+    </div>
 
 </body>
 </html>
