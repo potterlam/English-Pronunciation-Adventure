@@ -510,7 +510,7 @@ body{
 }
 .sword-player{
     position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
-    transition:left .08s linear;z-index:50;text-align:center;
+    transition:none;z-index:50;text-align:center;
 }
 .player-body{font-size:42px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.5))}
 .sword-blade{

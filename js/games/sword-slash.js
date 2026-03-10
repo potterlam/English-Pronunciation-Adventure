@@ -29,6 +29,8 @@ class SwordSlashGame {
         this.timerInterval = null;
         this.lastFrame = 0;
         this._keyHandler = null;
+        this._keyUpHandler = null;
+        this.keysHeld = {};
         this.areaWidth = 0;
         this.areaHeight = 0;
         this.slashing = false;
@@ -42,6 +44,7 @@ class SwordSlashGame {
     destroy() {
         this.playing = false;
         if (this._keyHandler) document.removeEventListener('keydown', this._keyHandler);
+        if (this._keyUpHandler) document.removeEventListener('keyup', this._keyUpHandler);
         cancelAnimationFrame(this.rafId);
         clearInterval(this.spawnInterval);
         clearInterval(this.timerInterval);
@@ -112,16 +115,18 @@ class SwordSlashGame {
 
     _bindKeys() {
         this._keyHandler = (e) => {
-            if (!this.playing || this.paused) return;
             const k = e.key;
-            if (k === 'ArrowLeft')  { this.playerX = Math.max(5, this.playerX - 6); this._movePlayer(); e.preventDefault(); }
-            if (k === 'ArrowRight') { this.playerX = Math.min(95, this.playerX + 6); this._movePlayer(); e.preventDefault(); }
-            if (k === 'ArrowUp')    { this._slash(); e.preventDefault(); }
+            if (!this.playing || this.paused) return;
+            if (k === 'ArrowLeft' || k === 'ArrowRight' || k === 'ArrowUp') e.preventDefault();
+            this.keysHeld[k] = true;
+            if (k === 'ArrowUp') this._slash();
             if (k === '1' || k === 'j' || k === 'J') this._switchSword(this.types[0]);
             if (k === '2' || k === 'k' || k === 'K') this._switchSword(this.types[1]);
             if (k === '3' || k === 'l' || k === 'L') this._switchSword(this.types[2]);
         };
+        this._keyUpHandler = (e) => { this.keysHeld[e.key] = false; };
         document.addEventListener('keydown', this._keyHandler);
+        document.addEventListener('keyup', this._keyUpHandler);
     }
 
     _movePlayer() {
@@ -150,6 +155,7 @@ class SwordSlashGame {
         this.timeLeft = 90;
         this.words = [];
         this.playerX = 50;
+        this.keysHeld = {};
         this._movePlayer();
 
         document.getElementById('ssStartBtn').disabled = true;
@@ -160,7 +166,8 @@ class SwordSlashGame {
 
         this.lastFrame = performance.now();
         this.rafId = requestAnimationFrame((ts) => this._loop(ts));
-        this.spawnInterval = setInterval(() => this._spawnWord(), 1200);
+        this._spawnWord(); // spawn first word immediately
+        this.spawnInterval = setInterval(() => this._spawnWord(), 300);
         this.timerInterval = setInterval(() => {
             if (!this.paused) {
                 this.timeLeft--;
@@ -176,6 +183,11 @@ class SwordSlashGame {
 
         const dt = (ts - this.lastFrame) / 1000;
         this.lastFrame = ts;
+
+        // smooth player movement from held keys
+        const playerSpeed = 60; // % per second
+        if (this.keysHeld['ArrowLeft'])  { this.playerX = Math.max(5, this.playerX - playerSpeed * dt); this._movePlayer(); }
+        if (this.keysHeld['ArrowRight']) { this.playerX = Math.min(95, this.playerX + playerSpeed * dt); this._movePlayer(); }
 
         // move words down
         for (let i = this.words.length - 1; i >= 0; i--) {
@@ -203,6 +215,7 @@ class SwordSlashGame {
 
     _spawnWord() {
         if (!this.playing || this.paused) return;
+        if (this.words.length > 0) return; // only one word on screen at a time
         const type = this.types[Math.floor(Math.random() * this.types.length)];
         const category = this.mode === 'pastTense' ? 'pastTense' : 'extension';
         const pool = window.WordDB[category][type];
@@ -221,7 +234,7 @@ class SwordSlashGame {
         this.words.push({
             el, word, type,
             x, y: -40,
-            speed: 1.2 + Math.random() * 1.5,
+            speed: 2.5 + Math.random() * 1.0,
             width: 100
         });
     }
