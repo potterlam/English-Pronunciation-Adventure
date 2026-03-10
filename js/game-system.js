@@ -282,7 +282,7 @@ class GameSystem {
             wordPuzzle:     { title: t('cs1Title'), text: t('cs1Text'), img: 'assets/images/player-sprite.png' },
             swordSlash:     { title: t('cs2Title'), text: t('cs2Text'), img: 'assets/images/warrior-sprite.png' },
             multipleChoice: { title: t('cs3Title'), text: t('cs3Text'), img: 'assets/images/wizard-sprite.png' },
-            bossFight:      { title: t('cs4Title'), text: t('cs4Text'), img: 'assets/images/pronunciation-king.png' }
+            bossFight:      { title: t('cs4Title'), text: t('cs4Text'), img: 'assets/images/final-boss.png' }
         };
 
         const cs = csKeys[id];
@@ -339,7 +339,28 @@ class GameSystem {
         if (id === 'bossFight') {
             setTimeout(() => this.showEnding(), 3000);
         } else {
-            setTimeout(() => this.showGameMenu(), 3000);
+            // Show artifact acquisition cutscene with artifact image
+            const artifactImages = {
+                wordPuzzle:     'assets/images/artifact-time-controller.png',
+                swordSlash:     'assets/images/artifact-knowledge-gem.png',
+                multipleChoice: 'assets/images/artifact-explorers-eye.png'
+            };
+            const lang = window.gameState.currentLanguage;
+            const artifactNames = {
+                wordPuzzle:     { zh: '時空控制器', en: 'Time Controller' },
+                swordSlash:     { zh: '知識寶石', en: 'Knowledge Gem' },
+                multipleChoice: { zh: '探索者之眼', en: "Explorer's Eye" }
+            };
+            const name = artifactNames[id] ? artifactNames[id][lang] || artifactNames[id].en : '';
+            const title = lang === 'zh' ? '✨ 神器獲得！' : '✨ Artifact Obtained!';
+            const text  = lang === 'zh'
+                ? `你獲得了「${name}」！前往下一個挑戰！`
+                : `You obtained the ${name}! Proceed to the next challenge!`;
+            setTimeout(() => {
+                window.screenManager.showCutscene(title, text, () => {
+                    this.showGameMenu();
+                }, artifactImages[id], 'cutscene-artifact');
+            }, 1000);
         }
     }
 
