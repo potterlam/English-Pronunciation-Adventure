@@ -24,17 +24,17 @@ class ScreenManager {
     }
 
     /** Show a story cutscene overlay before a game */
-    showCutscene(title, text, callback, charImg) {
+    showCutscene(title, text, callback, charImg, imgClass) {
         const overlay = document.getElementById('cutsceneOverlay');
         const csCard = overlay.querySelector('.cs-card');
         // Remove old character image if any
-        const oldImg = csCard.querySelector('.cutscene-character');
+        const oldImg = csCard.querySelector('.cutscene-character, .cutscene-artifact');
         if (oldImg) oldImg.remove();
         // Add character image
         if (charImg) {
             const img = document.createElement('img');
             img.src = charImg;
-            img.className = 'cutscene-character';
+            img.className = imgClass || 'cutscene-character';
             img.alt = '';
             csCard.insertBefore(img, csCard.firstChild);
         }
